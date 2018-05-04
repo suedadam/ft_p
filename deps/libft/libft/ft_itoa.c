@@ -6,52 +6,67 @@
 /*   By: asyed <asyed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/19 22:58:39 by satkins           #+#    #+#             */
-/*   Updated: 2018/05/03 14:41:39 by asyed            ###   ########.fr       */
+/*   Updated: 2018/05/03 18:48:14 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		lengths(int n, size_t *len, int *weight)
+static int		ft_getnumlength(int n)
 {
-	*len = 1;
-	if (n >= 0)
+	int	length;
+
+	length = 0;
+	if (n < 0)
 	{
-		*len = 0;
+		length++;
 		n = -n;
 	}
-	*weight = 1;
-	while (n / *weight < 0)
+	while (n)
 	{
-		*weight *= 10;
-		*len += 1;
+		n /= 10;
+		length++;
 	}
+	return (length);
+}
+
+static	void	ft_itoa_helper(int n, char *new, int length)
+{
+	if (n < 0)
+	{
+		if (n < 0 && (n = -n))
+			new[0] = '-';
+		while (length > 0)
+		{
+			new[length--] = (n % 10) + '0';
+			n /= 10;
+		}
+	}
+	else
+		while (length >= 0)
+		{
+			new[length--] = (n % 10) + '0';
+			n /= 10;
+		}
 }
 
 char			*ft_itoa(int n)
 {
-	size_t		len;
-	int			weight;
-	size_t		cur;
-	char		*str;
+	char	*new;
+	int		length;
 
-	lengths(n, &len, &weight);
-	str = (char *)ft_memalloc(sizeof(*str) * (len + 1));
-	if (str == NULL)
+	length = ft_getnumlength(n);
+	new = (char *)malloc(((n ? length : 1) + 1) * sizeof(char));
+	if (!new)
 		return (NULL);
-	cur = 0;
-	if (n < 0)
+	if (n)
 	{
-		str[cur] = '-';
-		cur++;
+		if (n == -2147483648)
+			return (ft_strcpy(new, "-2147483648"));
+		new[length--] = '\0';
+		ft_itoa_helper(n, new, length);
 	}
-	if (n > 0)
-		n = -n;
-	while (weight >= 1)
-	{
-		str[cur++] = -(n / weight % 10) + 48;
-		weight /= 10;
-	}
-	str[cur] = '\0';
-	return (str);
+	else
+		ft_strcpy(new, "0");
+	return (new);
 }

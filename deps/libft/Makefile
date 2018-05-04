@@ -17,7 +17,7 @@ SRCSDIR_PRINTF = printf/
 INCLUDES = -I inc/
 CC = gcc
 FLAGS += -Wall -Wextra -Werror
-CFLAGS += -c -Wall -Wextra -Werror 
+CFLAGS += -c -Wall -Wextra -Werror -g -fsanitize=address 
 
 ################################################################################
 # SOURCE FILES                                                          #

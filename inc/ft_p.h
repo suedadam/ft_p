@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 13:33:18 by asyed             #+#    #+#             */
-/*   Updated: 2018/05/03 18:28:23 by asyed            ###   ########.fr       */
+/*   Updated: 2018/05/04 00:08:39 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ int			exec_pwd(char *buf, t_clients *client, int fd);
 int			cmd_type(const char *buf);
 int			exec_type(char *buf, t_clients *client, int fd);
 int			init_control(int socket_fd, int worker_id);
-int 		init_dataworkers(fd_set *p_fds, int socket_fd);
+int 		init_dataworkers(fd_set *p_fds, int socket_fd, t_pqueue *workers);
 t_clients	*init_client(void);
 int			init_ipc(struct sockaddr_in *addr, int *fds);
+int			send_fd(int c_fd, int worker_fd, t_clients *client);
+int			recv_fd(int comm, t_clients *client);
+int			num_larger(void *one, void *two);
 
 extern t_clients **g_clients;
 
