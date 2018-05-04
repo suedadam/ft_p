@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 13:32:43 by asyed             #+#    #+#             */
-/*   Updated: 2018/04/30 15:08:01 by asyed            ###   ########.fr       */
+/*   Updated: 2018/05/02 12:31:57 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static inline int	init_socket(void)
 int	main(__attribute__((unused)) int argc, __attribute__((unused)) char *argv[])
 {
 	int	socket_fd;
+	int	i;
 
 	if ((socket_fd = init_socket()) == -1)
 	{
@@ -42,11 +43,16 @@ int	main(__attribute__((unused)) int argc, __attribute__((unused)) char *argv[])
 		return (EXIT_FAILURE);
 	}
 	printf("Initialzied socket correctly!\n");
-	if (init_worker(socket_fd) == EXIT_FAILURE)
-	{
-		printf("Error: %s\n", strerror(errno));
-		return (EXIT_FAILURE);
-	}
+	i = 1;
+	// while (i < 4)
+	// {
+		if (init_control(socket_fd, i) == EXIT_FAILURE)
+		{
+			printf("[%d] Error: %s\n", i, strerror(errno));
+			return (EXIT_FAILURE);
+		}
+		// i++;
+	// }
 	while(1);
 	return (EXIT_SUCCESS);
 }

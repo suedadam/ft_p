@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   dataport.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asyed <asyed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:39:09 by asyed             #+#    #+#             */
-/*   Updated: 2018/05/01 23:54:45 by asyed            ###   ########.fr       */
+/*   Updated: 2018/05/02 13:28:49 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	}
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(1337);
+	addr.sin_port = htons(1338);
 	inet_pton(AF_INET, "e1z3r8p20.42.us.org", &(addr.sin_addr.s_addr));
 	if (connect(s_fd, (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1)
 	{
@@ -46,7 +46,8 @@ int	main(int argc, char *argv[])
 		buf[res - 1] = '\r';
 		buf[res] = '\n';
 		// strcpy(buf, "\r\n\0");
-		write(s_fd, buf, res - 1);
+		if ((res = write(s_fd, buf, res - 1)) == -1)
+			break ;
 	}
 	// write(s_fd, "Penis\n", strlen("Penis\n"));
 	if (!res || res == -1)
